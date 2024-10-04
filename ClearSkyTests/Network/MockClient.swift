@@ -41,3 +41,50 @@ final class MockClient: Client {
         return Image(uiImage: uiImage)
     }
 }
+
+// Stubbed
+
+extension CityInfo {
+    var asData: Data? {
+        do {
+            return try JSONEncoder().encode(self)
+        } catch {
+            return nil
+        }
+    }
+
+    static var stubbed: CityInfo {
+        CityInfo(name: "New York City",
+                 localNames: nil,
+                 lat: 40.7545006,
+                 lon: 73.9921813,
+                 country: "US",
+                 state: "NY")
+    }
+}
+
+extension WeatherInfo {
+    var asData: Data? {
+        do {
+            return try JSONEncoder().encode(self)
+        } catch {
+            return nil
+        }
+    }
+
+    static var stubbed: WeatherInfo {
+        WeatherInfo(coordinate: Coordinate(lon: 73.9921813, lat: 40.7545006),
+                    weather: [Weather(id: 0, main: "Sunny", description: "Sunny", icon: "10N")],
+                    base: "",
+                    main: Main(temp: 75, feelsLike: 75, tempMin: 50, tempMax: 75, pressure: 20, humidity: 20, seaLevel: 20, grndLevel: 20),
+                    visibility: 20,
+                    wind: Wind(speed: 5, deg: 5),
+                    clouds: Clouds(all: 10),
+                    dt: 20,
+                    sys: Sys(type: 20, id: 20, country: "United States", sunrise: 20, sunset: 20),
+                    timezone: 20,
+                    id: 20,
+                    name: "New York City",
+                    cod: 20)
+    }
+}

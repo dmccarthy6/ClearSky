@@ -10,11 +10,11 @@ import Foundation
 
 enum MockRequest: APIRequest {
     case weather
-    case coordinate(String)
+    case coordinate
     case image
 
     var host: String {
-        "www.testendpoint.com"
+        "www.google.com"
     }
 
     var path: String {
@@ -34,9 +34,8 @@ enum MockRequest: APIRequest {
             return [
                 URLQueryItem(name: "appid", value: "123456")
             ]
-        case .coordinate(let cityName):
+        case .coordinate:
             return [
-                URLQueryItem(name: "q", value: cityName),
                 URLQueryItem(name: "appid", value: "123456")
             ]
         case .image: return []
