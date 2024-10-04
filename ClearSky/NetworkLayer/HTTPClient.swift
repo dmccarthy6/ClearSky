@@ -16,6 +16,7 @@ protocol Client {
 
 class HTTPClient: Client {
     let session: URLSession
+    private let imageCache = ImageCache()
 
     init(configuration: URLSessionConfiguration = .default) {
         self.session = URLSession(configuration: configuration)
@@ -27,11 +28,16 @@ class HTTPClient: Client {
     }
 
     func getImage(using request: any APIRequest) async throws -> Image {
-        let (data, _) = try await session.data(for: request.request)
-        guard let uiImage = UIImage(data: data) else {
-#warning("TODO: IOS-003 - Implement caching (return a default image here)")
-            fatalError()
+        // Check for a cached image first
+        if let cachedImage = imageCache.retrieve(for: request.url.absoluteString) {
+            return Image(uiImage: cachedImage)
+        } else {
+            let (data, _) = try await session.data(for: request.request)
+            guard let uiImage = UIImage(data: data) else {
+                return Images.placeholderImage
+            }
+            imageCache.store(image: uiImage, for: request.url.absoluteString)
+            return Image(uiImage: uiImage)
         }
-        return Image(uiImage: uiImage)
     }
 }
