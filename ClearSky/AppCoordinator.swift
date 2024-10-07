@@ -14,6 +14,8 @@ final class AppCoordinator: ObservableObject {
         case weatherInfo
     }
 
+    let database = LocalDatabase()
+    let networkService = NetworkService()
     @Published var routes: [Routes] = []
 
     func navigate(to route: Routes) {
