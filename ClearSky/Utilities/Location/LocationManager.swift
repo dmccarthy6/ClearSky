@@ -15,7 +15,8 @@ final class LocationManager: NSObject, Observable {
     }()
 
     @Published var authStatus: CLAuthorizationStatus = .notDetermined
-    
+    private var locationClosure: LocationClosure?
+
     /// This function calls `CLLocationManager's` `requestWhenInUseAuthorization`
     /// when the current auth status is `.notDetermined`. If the user has already set a location
     /// auth for this app besides notDetermined nothing will happen.
@@ -28,9 +29,12 @@ final class LocationManager: NSObject, Observable {
     
     /// Retrieve the CLLocation for the current user. This will only work if
     /// the authStatus is either `authorizedWhenInUse` or `authorizedAlways`.
-    func getUserCurrentLocation() {
+    func currentLocationForUser(_ completion: @escaping LocationClosure) {
+        locationClosure = completion
+
         guard authStatus == .authorizedWhenInUse ||
                 authStatus == .authorizedAlways else {
+            completion(nil)
             return
         }
         manager.startUpdatingLocation()
@@ -46,8 +50,19 @@ extension LocationManager: CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
-        let location = locations.last ?? CLLocation()
-        #warning("TODO: Cache location data so we can show this when the user logs in.")
         manager.stopUpdatingLocation()
+
+        let location = locations.last
+        guard let location = location else {
+            locationClosure?(nil)
+            return
+        }
+        let cityInfo = CityInfo(name: "Unknown",
+                                localNames: nil,
+                                lat: location.coordinate.latitude,
+                                lon: location.coordinate.longitude,
+                                country: "Unknown",
+                                state: "Unknown")
+        locationClosure?(cityInfo)
     }
 }
