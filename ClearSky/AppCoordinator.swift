@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 final class AppCoordinator: ObservableObject {
-    enum Routes {
+    enum Routes: Hashable {
         case search
         case weatherInfo
     }

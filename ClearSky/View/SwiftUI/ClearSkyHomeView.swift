@@ -18,7 +18,6 @@ struct ClearSkyHomeView: View {
             Text("A View")
                 .navigationDestination(for: AppCoordinator.Routes.self) { route in
                     switch route {
-                    case .requestLocationAuth: Text("RequestAuth")
                     case .search: Text("Search")
                     case .weatherInfo: Text("Weather Info")
                     }
