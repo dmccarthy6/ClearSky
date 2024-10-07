@@ -11,7 +11,7 @@ import SwiftUI
 struct ClearSkyApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ClearSkyHomeView(viewModel: HomeViewModel())
         }
     }
 }
