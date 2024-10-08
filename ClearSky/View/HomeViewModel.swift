@@ -37,7 +37,7 @@ struct HomeViewModel {
         try await withCheckedThrowingContinuation { continuation in
             locationManager.currentLocationForUser { location in
                 guard let location else {
-                    continuation.resume(throwing: <#T##any Error#>)
+                    continuation.resume(throwing: LocationError.currentLocationFailed)
                     return
                 }
                 continuation.resume(returning: location)
