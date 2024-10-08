@@ -8,6 +8,11 @@
 import SwiftUI
 
 extension EnvironmentValues {
-    @Entry var locationManager = LocationManager()
-    @Entry var coordinator = AppCoordinator()
+    var locationManager: LocationManager {
+        get { self[LocationManagerKey.self] }
+    }
+}
+
+private struct LocationManagerKey: EnvironmentKey {
+    static let defaultValue: LocationManager = LocationManager()
 }

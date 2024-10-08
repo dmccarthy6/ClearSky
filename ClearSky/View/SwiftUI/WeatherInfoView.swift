@@ -10,13 +10,13 @@ import SwiftUI
 struct WeatherInfoView: View {
     @State private var isLoading = false
     @State private var weatherInfo: WeatherInfo?
-    @State private var icon: Image?
+    @State private var icon: Image = Image("")
     let viewModel: WeatherInfoViewModel
 
     var body: some View {
-        ZStack {
+        VStack {
             WeatherDataView(cityName: weatherInfo?.name ?? "",
-                            icon: icon ?? Images.placeholderImage,
+                            icon: icon,
                             dailyLow: String(weatherInfo?.main.tempMin ?? 0),
                             dailyHigh: String(weatherInfo?.main.tempMax ?? 0))
 
@@ -24,24 +24,24 @@ struct WeatherInfoView: View {
                 ProgressView()
                     .progressViewStyle(.circular)
             }
+            Spacer()
         }
+        
         .task {
             do {
                 isLoading = true
-                let info = try await viewModel.getWeatherInfo(latitude: weatherInfo?.coordinate.lat ?? 0,
-                                                              longitude: weatherInfo?.coordinate.lon ?? 0)
+                let info = try await viewModel.getWeatherInfo()
                 weatherInfo = info
-                let weatherIcon = try await viewModel.getIcon(weatherInfo: info)
-                icon = weatherIcon
+                icon = try await viewModel.getIcon(weatherInfo: info)
                 isLoading = false
             } catch {
                 isLoading = false
-                // TODO: Error Handling
+#warning("TODO: IOS-005 - Error Handling")
             }
         }
     }
 }
 
 #Preview {
-    WeatherInfoView(viewModel: WeatherInfoViewModel(service: NetworkService()))
+    WeatherInfoView(viewModel: WeatherInfoViewModel(service: NetworkService(), cityInfo: CityInfo(name: "", localNames: nil, lat: 0, lon: 0, country: "", state: "")))
 }

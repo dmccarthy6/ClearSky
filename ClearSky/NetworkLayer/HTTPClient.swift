@@ -10,7 +10,7 @@ import SwiftUI
 
 /// Methods for interacting with URLSession in production and for mocking in tests.
 protocol Client {
-    func get<T: Codable>(using request: APIRequest) async throws -> T
+    func get<T: Codable>(using request: APIRequest, object: T.Type) async throws -> T
     func getImage(using request: APIRequest) async throws -> Image
 }
 
@@ -22,9 +22,9 @@ class HTTPClient: Client {
         self.session = URLSession(configuration: configuration)
     }
 
-    func get<T>(using request: any APIRequest) async throws -> T where T : Decodable, T : Encodable {
+    func get<T>(using request: any APIRequest, object: T.Type) async throws -> T where T : Decodable, T : Encodable {
         let (data, _) = try await session.data(for: request.request)
-        return try JSONDecoder().decode(T.self, from: data)
+        return try JSONDecoder().decode(object, from: data)
     }
 
     func getImage(using request: any APIRequest) async throws -> Image {
