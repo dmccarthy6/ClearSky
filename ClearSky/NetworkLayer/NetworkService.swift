@@ -18,9 +18,9 @@ struct NetworkService {
     /// Get the geo cordinates for the specified city name.
     /// - Parameter city: Name of the city.
     /// - Returns: `CityInfo` which includes the lat and lon.
-    func getCityCoordinates(for city: String) async throws -> CityInfo {
+    func getCityCoordinates(for city: String) async throws -> [CityInfo] {
         let request = WeatherAPIRequest.getCoordinates(city: city)
-        return try await client.get(using: request)
+        return try await client.get(using: request, object: [CityInfo].self)
     }
     
     /// Get weather info for the provided lat and lon.
@@ -30,7 +30,7 @@ struct NetworkService {
     /// - Returns: `WeatherInfo` object that includes data about the weather.
     func getWeather(for lat: Double, lon: Double) async throws -> WeatherInfo {
         let request = WeatherAPIRequest.getWeather(lat: lat, lon: lon)
-        return try await client.get(using: request)
+        return try await client.get(using: request, object: WeatherInfo.self)
     }
     
     /// Get the icon for the specified icon id.
