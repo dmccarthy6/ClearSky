@@ -15,7 +15,7 @@ final class LocationManager: NSObject, ObservableObject {
         locationManager.authorizationStatus == .authorizedAlways
     }
 
-    @Published var authStatus: CLAuthorizationStatus = .notDetermined
+    @Published var authStatus: CLAuthorizationStatus?
 
     override init() {
         locationManager = CLLocationManager()
@@ -52,6 +52,7 @@ final class LocationManager: NSObject, ObservableObject {
 
 extension LocationManager: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        guard self.authStatus != manager.authorizationStatus else { return }
         authStatus = manager.authorizationStatus
     }
 
