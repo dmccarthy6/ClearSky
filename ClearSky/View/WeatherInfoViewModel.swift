@@ -10,9 +10,10 @@ import SwiftUI
 
 struct WeatherInfoViewModel {
     let service: NetworkService
+    let cityInfo: CityInfo
 
-    func getWeatherInfo(latitude: Double, longitude: Double) async throws -> WeatherInfo {
-        try await service.getWeather(for: latitude, lon: longitude)
+    func getWeatherInfo() async throws -> WeatherInfo {
+        try await service.getWeather(for: cityInfo.lat, lon: cityInfo.lon)
     }
 
     func getIcon(weatherInfo: WeatherInfo) async throws -> Image {
@@ -20,7 +21,8 @@ struct WeatherInfoViewModel {
             let weather = weatherInfo.weather.first
             return try await service.getIcon(with: weather?.icon ?? "")
         } catch {
-            return Images.placeholderImage
+            print("Error getting icon. Error - \(error)")
+            throw error
         }
     }
 }
