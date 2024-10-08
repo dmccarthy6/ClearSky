@@ -19,6 +19,9 @@ final class AppCoordinator: ObservableObject {
     @Published var routes: [Routes] = []
 
     func navigate(to route: Routes) {
+        guard !routes.contains(route) else {
+            return
+        }
         routes.append(route)
     }
 
@@ -26,17 +29,34 @@ final class AppCoordinator: ObservableObject {
         routes.removeLast()
     }
 
-    func weatherInfoView(for city: CityInfo) -> WeatherInfoView {
+    @ViewBuilder
+    func viewFor(route: AppCoordinator.Routes) -> some View {
+        let navigationTitle = navigationTitle(for: route)
+        switch route {
+        case .search:
+            searchView()
+                .navigationTitle(navigationTitle)
+        case .weatherInfo:
+            if let cachedCity = database.getCityInfo() {
+                weatherInfoView(for: cachedCity)
+                    .navigationTitle(navigationTitle)
+            } else {
+                searchView()
+            }
+        }
+    }
+
+    private func weatherInfoView(for city: CityInfo) -> WeatherInfoView {
         let viewModel = WeatherInfoViewModel(service: networkService, cityInfo: city)
         return WeatherInfoView(viewModel: viewModel)
     }
 
-    func searchView() -> SearchControllerRepresentable {
+    private func searchView() -> SearchControllerRepresentable {
         let viewModel = SearchViewModel(service: networkService)
         return SearchControllerRepresentable(coordinator: self, viewModel: viewModel)
     }
-
-    func navigationTitle(for route: Routes) -> String {
+    
+    private func navigationTitle(for route: Routes) -> String {
         switch route {
         case .search: return "Search"
         case .weatherInfo: return "Weather"
