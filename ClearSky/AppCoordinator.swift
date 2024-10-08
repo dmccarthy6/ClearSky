@@ -26,12 +26,12 @@ final class AppCoordinator: ObservableObject {
         routes.removeLast()
     }
 
-    func view(for route: Routes) -> some View {
-        switch route {
-        case .search:
-            Text("IOS-004 - Search Screen")
-        case .weatherInfo:
-            Text("IOS-006 - Weather Info View")
-        }
+    func weatherInfoView() -> WeatherInfoView {
+        let viewModel = WeatherInfoViewModel(service: networkService)
+        return WeatherInfoView(viewModel: viewModel)
+    }
+
+    func searchView() {
+        
     }
 }
