@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ClearSkyHomeView: View {
     @Environment(\.locationManager) var locationManager
+    @Environment(\.scenePhase) var scenePhase
     @StateObject var coordinator = AppCoordinator()
     @State private var isLoading = false
     let viewModel: HomeViewModel
@@ -31,10 +32,20 @@ struct ClearSkyHomeView: View {
             await configureViewAndNavigate()
         }
         .onChange(of: locationManager.authStatus) {
-            print("User updated auth status - Home View")
             Task { @MainActor in
-
                 await configureViewAndNavigate()
+            }
+        }
+        .onChange(of: scenePhase) {
+            switch scenePhase {
+            case .inactive: return
+            case .active:
+                // Update our view when the user selects a location permission.
+                Task {
+                    await configureViewAndNavigate()
+                }
+            case .background: return
+            @unknown default: return
             }
         }
     }
@@ -43,7 +54,6 @@ struct ClearSkyHomeView: View {
         isLoading = true
         if locationManager.locationManager.authorizationStatus == .notDetermined {
             locationManager.requestLocationAuthorizationFromUser()
-            print("Requesting authorization from user")
             return
         }
 
