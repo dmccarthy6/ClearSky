@@ -8,7 +8,7 @@
 import Foundation
 
 struct WeatherInfo: Codable, Identifiable {
-    let coordinate: Coordinate
+    let coord: Coordinate
     /// Main weather info including description and icon.
     let weather: [Weather]
     ///
@@ -74,7 +74,7 @@ struct Main: Codable {
 
 struct Wind: Codable {
     /// Wind speed
-    let speed: Int
+    let speed: Double
     /// Wind direction
     let deg: Int
 }
