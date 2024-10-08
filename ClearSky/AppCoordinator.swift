@@ -26,12 +26,20 @@ final class AppCoordinator: ObservableObject {
         routes.removeLast()
     }
 
-    func weatherInfoView() -> WeatherInfoView {
-        let viewModel = WeatherInfoViewModel(service: networkService)
+    func weatherInfoView(for city: CityInfo) -> WeatherInfoView {
+        let viewModel = WeatherInfoViewModel(service: networkService, cityInfo: city)
         return WeatherInfoView(viewModel: viewModel)
     }
 
-    func searchView() {
-        
+    func searchView() -> SearchControllerRepresentable {
+        let viewModel = SearchViewModel(service: networkService)
+        return SearchControllerRepresentable(coordinator: self, viewModel: viewModel)
+    }
+
+    func navigationTitle(for route: Routes) -> String {
+        switch route {
+        case .search: return "Search"
+        case .weatherInfo: return "Weather"
+        }
     }
 }
