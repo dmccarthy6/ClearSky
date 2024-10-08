@@ -7,15 +7,21 @@
 
 import CoreLocation
 
-final class LocationManager: NSObject, Observable {
-    private(set) lazy var manager: CLLocationManager = {
-        let manager = CLLocationManager()
-        manager.delegate = self
-        return manager
-    }()
+final class LocationManager: NSObject, ObservableObject {
+    let locationManager: CLLocationManager
+    private var locationClosure: LocationClosure?
+    var authorizationGranted: Bool {
+        locationManager.authorizationStatus == .authorizedWhenInUse ||
+        locationManager.authorizationStatus == .authorizedAlways
+    }
 
     @Published var authStatus: CLAuthorizationStatus = .notDetermined
-    private var locationClosure: LocationClosure?
+
+    override init() {
+        locationManager = CLLocationManager()
+        super.init()
+        locationManager.delegate = self
+    }
 
     /// This function calls `CLLocationManager's` `requestWhenInUseAuthorization`
     /// when the current auth status is `.notDetermined`. If the user has already set a location
@@ -24,7 +30,7 @@ final class LocationManager: NSObject, Observable {
         guard authStatus == .notDetermined else {
             return
         }
-        manager.requestWhenInUseAuthorization()
+        locationManager.requestWhenInUseAuthorization()
     }
     
     /// Retrieve the CLLocation for the current user. This will only work if
@@ -32,12 +38,13 @@ final class LocationManager: NSObject, Observable {
     func currentLocationForUser(_ completion: @escaping LocationClosure) {
         locationClosure = completion
 
-        guard authStatus == .authorizedWhenInUse ||
-                authStatus == .authorizedAlways else {
+        guard locationManager.authorizationStatus == .authorizedWhenInUse ||
+                locationManager.authorizationStatus == .authorizedAlways else {
             completion(nil)
             return
         }
-        manager.startUpdatingLocation()
+
+        locationManager.requestLocation()
     }
 }
 
@@ -50,11 +57,9 @@ extension LocationManager: CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager,
                          didUpdateLocations locations: [CLLocation]) {
-        manager.stopUpdatingLocation()
-
-        let location = locations.last
-        guard let location = location else {
+        guard let location = locations.last else {
             locationClosure?(nil)
+            locationClosure = nil
             return
         }
         let cityInfo = CityInfo(name: "Unknown",
@@ -64,5 +69,11 @@ extension LocationManager: CLLocationManagerDelegate {
                                 country: "Unknown",
                                 state: "Unknown")
         locationClosure?(cityInfo)
+        locationClosure = nil
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
+#warning("TODO: IOS-005 - Error Handling")
+        print("Timeout searching for users current location: \(error)")
     }
 }
