@@ -16,10 +16,8 @@ struct WeatherInfoView: View {
 
     var body: some View {
         VStack {
-            WeatherDataView(cityName: weatherInfo?.name ?? "",
-                            icon: icon,
-                            dailyLow: String(weatherInfo?.main.tempMin ?? 0),
-                            dailyHigh: String(weatherInfo?.main.tempMax ?? 0))
+            WeatherDataView(weatherInfo: weatherInfo, icon: icon)
+                .padding(.top, 100)
 
             if isLoading {
                 ProgressView()
