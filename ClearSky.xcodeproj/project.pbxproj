@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		61F07B162CB6CB5000814424 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 61F07B152CB6CB5000814424 /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		616A839D2CB031AA0069E71C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,11 +31,25 @@
 		616A838C2CB031A90069E71C /* ClearSky.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClearSky.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		616A839C2CB031AA0069E71C /* ClearSkyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClearSkyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		616A83A62CB031AA0069E71C /* ClearSkyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClearSkyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		61F07B152CB6CB5000814424 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		61F07C0B2CB6E24700814424 /* Exceptions for "ClearSky" folder in "ClearSky" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 616A838B2CB031A90069E71C /* ClearSky */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		616A838E2CB031A90069E71C /* ClearSky */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				61F07C0B2CB6E24700814424 /* Exceptions for "ClearSky" folder in "ClearSky" target */,
+			);
 			path = ClearSky;
 			sourceTree = "<group>";
 		};
@@ -75,6 +93,7 @@
 		616A83832CB031A90069E71C = {
 			isa = PBXGroup;
 			children = (
+				61F07B152CB6CB5000814424 /* README.md */,
 				616A838E2CB031A90069E71C /* ClearSky */,
 				616A839F2CB031AA0069E71C /* ClearSkyTests */,
 				616A83A92CB031AA0069E71C /* ClearSkyUITests */,
@@ -212,6 +231,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61F07B162CB6CB5000814424 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,11 +419,11 @@
 				DEVELOPMENT_TEAM = 3K8HM9CR5K;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ClearSky/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location used to fetch weather";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location used to fetch weather";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -430,11 +450,11 @@
 				DEVELOPMENT_TEAM = 3K8HM9CR5K;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ClearSky/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location used to fetch weather";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location used to fetch weather";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (

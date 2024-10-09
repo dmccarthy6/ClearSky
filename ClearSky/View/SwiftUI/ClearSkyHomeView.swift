@@ -23,6 +23,21 @@ struct ClearSkyHomeView: View {
                         .progressViewStyle(.circular)
                         .controlSize(.large)
                 }
+                Text(viewModel.welcomeText)
+                    .font(.body)
+                    .multilineTextAlignment(.center)
+                    .padding(.bottom, 150)
+                    .padding(.horizontal)
+                VStack(spacing: 20) {
+                    ClearSkyButton(title: "Weather Info") {
+                        coordinator.navigate(to: .weatherInfo)
+                    }
+                    
+                    ClearSkyButton(title: "Search") {
+                        coordinator.navigate(to: .search)
+                    }
+                }
+                .padding(.horizontal)
             }
             .navigationTitle("Home")
             .navigationDestination(for: AppCoordinator.Routes.self) { route in

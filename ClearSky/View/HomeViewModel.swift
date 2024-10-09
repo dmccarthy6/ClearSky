@@ -8,7 +8,8 @@
 import Foundation
 
 struct HomeViewModel {
-
+    let welcomeText = "Welcome to the Clear Sky app! To navigate back to a screen tap one of the buttons below!"
+    
     // MARK: - Location
 
     func cityInfo(manager: LocationManager,
