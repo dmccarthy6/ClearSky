@@ -12,7 +12,7 @@ struct HomeViewModel {
     // MARK: - Location
 
     func cityInfo(manager: LocationManager,
-                database: LocalDatabase) async -> CityInfo? {
+                database: LocalDatabase) async throws -> CityInfo? {
         do {
             if manager.authorizationGranted {
                 let cityInfo = try await getUsersCurrentLocation(locationManager: manager)
@@ -21,9 +21,10 @@ struct HomeViewModel {
             } else {
                 return lastSearchedLocation(database)
             }
+        } catch let error as ClearSkyError {
+            throw error
         } catch {
-            // TODO: IOS-1006
-            return nil
+            throw ClearSkyError.httpUnhandled
         }
     }
 
