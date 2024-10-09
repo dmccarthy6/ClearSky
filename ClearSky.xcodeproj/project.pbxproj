@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		61F07B162CB6CB5000814424 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 61F07B152CB6CB5000814424 /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		616A839D2CB031AA0069E71C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		616A838C2CB031A90069E71C /* ClearSky.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClearSky.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		616A839C2CB031AA0069E71C /* ClearSkyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClearSkyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		616A83A62CB031AA0069E71C /* ClearSkyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ClearSkyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		61F07B152CB6CB5000814424 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -88,6 +93,7 @@
 		616A83832CB031A90069E71C = {
 			isa = PBXGroup;
 			children = (
+				61F07B152CB6CB5000814424 /* README.md */,
 				616A838E2CB031A90069E71C /* ClearSky */,
 				616A839F2CB031AA0069E71C /* ClearSkyTests */,
 				616A83A92CB031AA0069E71C /* ClearSkyUITests */,
@@ -225,6 +231,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61F07B162CB6CB5000814424 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
