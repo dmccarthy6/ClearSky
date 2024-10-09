@@ -12,6 +12,7 @@ struct ClearSkyHomeView: View {
     @Environment(\.scenePhase) var scenePhase
     @StateObject var coordinator = AppCoordinator()
     @State private var isLoading = false
+    @State private var error: ClearSkyError?
     let viewModel: HomeViewModel
 
     var body: some View {
@@ -28,9 +29,15 @@ struct ClearSkyHomeView: View {
                 coordinator.viewFor(route: route)
             }
         }
+        .showError(item: $error, content: { error in
+            ErrorView(error: $error)
+        })
         .task {
             await configureViewAndNavigate()
         }
+        .onChange(of: locationManager.locationError, {
+            self.error = locationManager.locationError
+        })
         .onChange(of: locationManager.authStatus) {
             Task { @MainActor in
                 await configureViewAndNavigate()
@@ -57,10 +64,16 @@ struct ClearSkyHomeView: View {
             return
         }
 
-        let cityInfo = await viewModel.cityInfo(manager: locationManager,
-                                                database: coordinator.database)
-        isLoading = false
-        coordinator.navigate(to: cityInfo == nil ? .search : .weatherInfo)
+        do {
+            let cityInfo = try await viewModel.cityInfo(manager: locationManager,
+                                                    database: coordinator.database)
+            isLoading = false
+            coordinator.navigate(to: cityInfo == nil ? .search : .weatherInfo)
+        } catch let error as ClearSkyError {
+            self.error = error
+        } catch {
+            self.error = .httpUnhandled
+        }
     }
 }
 
