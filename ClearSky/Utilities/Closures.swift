@@ -9,3 +9,4 @@ import CoreLocation
 import Foundation
 
 typealias LocationClosure = ((CityInfo?) -> Void)
+typealias VoidClosure = (() -> Void)
