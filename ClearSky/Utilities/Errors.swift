@@ -7,23 +7,16 @@
 
 import Foundation
 
-enum LocationError: Error, Identifiable {
+enum ClearSkyError: Error, Identifiable {
     var id: Self {
         self
     }
 
+    // MARK: - Location Errors
     case currentLocationFailed
-    case unhandled
+    case locationUnhandled
 
-    var description: String {
-        return "Unable to retrieve your current location from the system. Try searching for your current city."
-    }
-}
-
-enum HTTPError: Error, Identifiable {
-    var id: Self {
-        self
-    }
+    // MARK: - HTTP Errors
 
     // Decoding Errors (Internal)
     case typeMismatch
@@ -32,10 +25,15 @@ enum HTTPError: Error, Identifiable {
     case dataCorrupted
     // This case is a catch-all for all other HTTP Errors
     // for simplicity sake. Would need to fix this.
-    case unhandled
+    case httpUnhandled
 
     var description: String {
-        // For simplification just returning a single error string.
-        return "Something went wrong retrieving the weather. Check your internet connection and try again."
+        switch self {
+        case .currentLocationFailed, .locationUnhandled:
+            return "Unable to retrieve your current location from the system. Try searching for your current city."
+        case .typeMismatch, .valueNotFound, .keyNotFound,
+                .dataCorrupted, .httpUnhandled:
+            return "Something went wrong retrieving the weather. Check your internet connection and try again."
+        }
     }
 }

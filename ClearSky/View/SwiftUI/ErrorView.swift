@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ErrorView: View {
-    @Binding var error: HTTPError?
+    @Binding var error: ClearSkyError?
 
     var body: some View {
         NavigationView {
@@ -18,7 +18,7 @@ struct ErrorView: View {
                     .foregroundStyle(Color.red)
                     .frame(width: 75, height: 75)
 
-                Text(error?.description ?? "")
+                Text(error?.description ?? "Unknown error")
                     .font(.body)
                     .multilineTextAlignment(.center)
             }
@@ -43,5 +43,5 @@ struct ErrorView: View {
 }
 
 #Preview {
-    ErrorView(error: .constant(.keyNotFound))
+    ErrorView(error: .constant(.currentLocationFailed))
 }

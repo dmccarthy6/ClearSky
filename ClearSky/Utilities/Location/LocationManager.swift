@@ -16,6 +16,7 @@ final class LocationManager: NSObject, ObservableObject {
     }
 
     @Published var authStatus: CLAuthorizationStatus?
+    @Published var locationError: ClearSkyError?
 
     override init() {
         locationManager = CLLocationManager()
@@ -74,7 +75,6 @@ extension LocationManager: CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
-#warning("TODO: IOS-005 - Error Handling")
-        print("Timeout searching for users current location: \(error)")
+        self.locationError = .locationUnhandled
     }
 }

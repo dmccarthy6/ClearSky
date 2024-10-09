@@ -9,6 +9,7 @@ import SwiftUI
 
 struct WeatherInfoView: View {
     @State private var isLoading = false
+    @State private var error: ClearSkyError?
     @State private var weatherInfo: WeatherInfo?
     @State private var icon: Image = Image("")
     let viewModel: WeatherInfoViewModel
@@ -26,18 +27,30 @@ struct WeatherInfoView: View {
             }
             Spacer()
         }
-        
+        .refreshable {
+            // TODO: Debounce so users can't fetch multiple times.
+            await loadWeatherData()
+        }
+        .showError(item: $error, content: { error in
+            ErrorView(error: $error)
+        })
         .task {
-            do {
-                isLoading = true
-                let info = try await viewModel.getWeatherInfo()
-                weatherInfo = info
-                icon = try await viewModel.getIcon(weatherInfo: info)
-                isLoading = false
-            } catch {
-                isLoading = false
-#warning("TODO: IOS-005 - Error Handling")
-            }
+            await loadWeatherData()
+        }
+    }
+
+    private func loadWeatherData() async {
+        do {
+            isLoading = true
+            let info = try await viewModel.getWeatherInfo()
+            weatherInfo = info
+            icon = try await viewModel.getIcon(weatherInfo: info)
+            isLoading = false
+        } catch let error as ClearSkyError {
+            isLoading = false
+            self.error = error
+        } catch {
+            self.error = .httpUnhandled
         }
     }
 }
@@ -45,3 +58,4 @@ struct WeatherInfoView: View {
 #Preview {
     WeatherInfoView(viewModel: WeatherInfoViewModel(service: NetworkService(), cityInfo: CityInfo(name: "", localNames: nil, lat: 0, lon: 0, country: "", state: "")))
 }
+

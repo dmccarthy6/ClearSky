@@ -23,8 +23,24 @@ class HTTPClient: Client {
     }
 
     func get<T>(using request: any APIRequest, object: T.Type) async throws -> T where T : Decodable, T : Encodable {
-        let (data, _) = try await session.data(for: request.request)
-        return try JSONDecoder().decode(object, from: data)
+        do {
+            let (data, _) = try await session.data(for: request.request)
+            return try JSONDecoder().decode(object, from: data)
+        } catch let error as DecodingError {
+            switch error {
+            case .typeMismatch:
+                throw ClearSkyError.typeMismatch
+            case .valueNotFound:
+                throw ClearSkyError.valueNotFound
+            case .keyNotFound:
+                throw ClearSkyError.keyNotFound
+            case .dataCorrupted:
+                throw ClearSkyError.dataCorrupted
+            @unknown default: throw ClearSkyError.httpUnhandled
+            }
+        } catch {
+            throw ClearSkyError.httpUnhandled
+        }
     }
 
     func getImage(using request: any APIRequest) async throws -> Image {
@@ -32,12 +48,16 @@ class HTTPClient: Client {
         if let cachedImage = imageCache.retrieve(for: request.url.absoluteString) {
             return Image(uiImage: cachedImage)
         } else {
-            let (data, _) = try await session.data(for: request.request)
-            guard let uiImage = UIImage(data: data) else {
-                return Images.placeholderImage
+            do {
+                let (data, _) = try await session.data(for: request.request)
+                guard let uiImage = UIImage(data: data) else {
+                    return Images.placeholderImage
+                }
+                imageCache.store(image: uiImage, for: request.url.absoluteString)
+                return Image(uiImage: uiImage)
+            } catch {
+                throw ClearSkyError.httpUnhandled
             }
-            imageCache.store(image: uiImage, for: request.url.absoluteString)
-            return Image(uiImage: uiImage)
         }
     }
 }

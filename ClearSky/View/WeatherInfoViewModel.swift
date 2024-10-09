@@ -21,7 +21,6 @@ struct WeatherInfoViewModel {
             let weather = weatherInfo.weather.first
             return try await service.getIcon(with: weather?.icon ?? "")
         } catch {
-#warning("TODO: IOS-005 - Error Handling")
             print("Error getting icon. Error - \(error)")
             throw error
         }

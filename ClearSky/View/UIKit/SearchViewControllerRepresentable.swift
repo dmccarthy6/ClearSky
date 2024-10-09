@@ -62,7 +62,6 @@ struct SearchControllerRepresentable: UIViewControllerRepresentable {
                         self.parent.coordinator.navigate(to: .weatherInfo)
                     }
                 } catch {
-#warning("TODO: IOS-005 - Error Handling")
                     print("FAILURE: \(error)")
                 }
             }
