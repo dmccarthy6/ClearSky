@@ -62,4 +62,18 @@ final class AppCoordinator: ObservableObject {
         case .weatherInfo: return "Weather"
         }
     }
+
+    private func showSearch() {
+        if routes.contains(.search) {
+            print("Search in there, popping back")
+            navigateBack()
+        } else {
+            print("No search, navigating to it")
+            // Pop the WeatherInfo view off the stack in order to
+            // "navigate back" to the WeatherInfo screen with the new data.
+            // Hack here to make the UX work.
+            navigateBack()
+            routes.append(.search)
+        }
+    }
 }
