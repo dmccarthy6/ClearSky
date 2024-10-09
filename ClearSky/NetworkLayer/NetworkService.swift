@@ -32,14 +32,4 @@ struct NetworkService {
         let request = WeatherAPIRequest.getWeather(lat: lat, lon: lon)
         return try await client.get(using: request, object: WeatherInfo.self)
     }
-    
-    /// Get the icon for the specified icon id.
-    /// - Parameter id: The id of the weather icon.
-    /// - Returns: `Image`
-    /// - Note: The icon id can be retrieved from a `WeatherInfo` object by
-    /// accessing `Weather.id`.
-    func getIcon(with id: String) async throws -> Image {
-        let request = WeatherAPIRequest.getIcon(id)
-        return try await client.getImage(using: request)
-    }
 }

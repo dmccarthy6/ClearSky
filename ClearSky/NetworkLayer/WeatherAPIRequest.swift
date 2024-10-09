@@ -17,7 +17,13 @@ enum WeatherAPIRequest: APIRequest {
     case getIcon(String)
 
     var host: String {
-        "api.openweathermap.org"
+        switch self {
+        case .getWeather, .getCoordinates:
+            "api.openweathermap.org"
+        case .getIcon:
+            "openweathermap.org"
+        }
+
     }
 
     var path: String {

@@ -15,14 +15,4 @@ struct WeatherInfoViewModel {
     func getWeatherInfo() async throws -> WeatherInfo {
         try await service.getWeather(for: cityInfo.lat, lon: cityInfo.lon)
     }
-
-    func getIcon(weatherInfo: WeatherInfo) async throws -> Image {
-        do {
-            let weather = weatherInfo.weather.first
-            return try await service.getIcon(with: weather?.icon ?? "")
-        } catch {
-            print("Error getting icon. Error - \(error)")
-            throw error
-        }
-    }
 }

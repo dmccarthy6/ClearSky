@@ -16,14 +16,14 @@ struct WeatherInfoView: View {
 
     var body: some View {
         VStack {
-            WeatherDataView(weatherInfo: weatherInfo, icon: icon)
-                .padding(.top, 100)
-
             if isLoading {
                 ProgressView()
                     .progressViewStyle(.circular)
+            } else {
+                WeatherDataView(weatherInfo: weatherInfo)
+                    .padding(.top, 100)
+                Spacer()
             }
-            Spacer()
         }
         .refreshable {
             // TODO: Debounce so users can't fetch multiple times.
@@ -40,9 +40,7 @@ struct WeatherInfoView: View {
     private func loadWeatherData() async {
         do {
             isLoading = true
-            let info = try await viewModel.getWeatherInfo()
-            weatherInfo = info
-            icon = try await viewModel.getIcon(weatherInfo: info)
+            weatherInfo = try await viewModel.getWeatherInfo()
             isLoading = false
         } catch let error as ClearSkyError {
             isLoading = false
