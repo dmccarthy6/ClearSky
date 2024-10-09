@@ -10,4 +10,5 @@ import SwiftUI
 enum Images {
     static let errorImage = Image(systemName: "exclamationmark.octagon.fill")
     static let placeholderImage = Image(systemName: "photo")
+    static let magnifyingGlass = Image(systemName: "magnifyingglass")
 }
