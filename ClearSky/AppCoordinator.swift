@@ -46,14 +46,20 @@ final class AppCoordinator: ObservableObject {
         }
     }
 
-    private func weatherInfoView(for city: CityInfo) -> WeatherInfoView {
+    private func weatherInfoView(for city: CityInfo) -> some View {
         let viewModel = WeatherInfoViewModel(service: networkService, cityInfo: city)
-        return WeatherInfoView(viewModel: viewModel)
+        let weatherInfoView = WeatherInfoView(viewModel: viewModel)
+            .navigationBar(title: navigationTitle(for: .weatherInfo)) { [weak self] in
+                self?.showSearch()
+            }
+        return weatherInfoView
     }
 
-    private func searchView() -> SearchControllerRepresentable {
+    private func searchView() -> some View {
         let viewModel = SearchViewModel(service: networkService)
-        return SearchControllerRepresentable(coordinator: self, viewModel: viewModel)
+        let searchView = SearchControllerRepresentable(coordinator: self, viewModel: viewModel)
+            .navigationTitle(navigationTitle(for: .search))
+        return searchView
     }
     
     private func navigationTitle(for route: Routes) -> String {
